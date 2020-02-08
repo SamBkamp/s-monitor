@@ -16,8 +16,12 @@ The program parses the data from /proc/cpuinfo and then turns that into a webpag
 
 #### ncurses (compilation only)
 to install ncurses on Debian based systems:
-`$ sudo apt install libncurses5* libncursesw5-dev`
+```bash
+$ sudo apt install libncurses5* libncursesw5-dev
+```
 *I dont know the package name on Arch based systems but yall use Arch so you can probably figure it out*
 #### Apache2
 If you don't have the `/var/www/html/` folder you will need to install apache2, To install just type:
-`$ sudo apt install apache2`
+```bash
+$ sudo apt install apache2
+```
