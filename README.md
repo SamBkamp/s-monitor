@@ -3,7 +3,7 @@ a simple command-line based server monitoring tool written in C. s-monitor makes
 
 ## Quick start
 ```bash
-$ ./compile.sh
+$ make
 $ ./s-monitor
 ```
 This will then show some basic data on the terminal, full data can be then seen through the webpage of the server: 
