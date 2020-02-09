@@ -32,8 +32,8 @@ int main(int argc, char* argv[]){
     printf("FATAL: PCRE compilation 1 failed\n");
     exit(0);
   }
-
-  for (;;){
+  
+  while(1){
     while(fgets(buffer, 2048, cpuinfo) != NULL && strcmp(buffer, "\n") != 0){
       sscanf(buffer, "%[^\n]", buffer);
       int model_rc = pcre_exec(model_re,
@@ -53,6 +53,8 @@ int main(int argc, char* argv[]){
 	refresh();
       }
     }
+    fclose(cpuinfo);
+    cpuinfo = fopen("/proc/cpuinfo", "r");
     sleep(1);
   }
   endwin();
