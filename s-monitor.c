@@ -5,14 +5,25 @@
 #include <unistd.h>
 #include <ncurses.h>
 
+
+char printStream[1024];
+FILE* cpuinfo;
+FILE* outfile;
+WINDOW* mainwin;
+//function prototypes:
+void flushData();
+void printToStream(const char* buffer, int option);
+
+
+
 int main(int argc, char* argv[]){
-  WINDOW* mainwin = initscr();
-  FILE* cpuinfo = fopen("/proc/cpuinfo", "r");
+  mainwin = initscr();
+  cpuinfo = fopen("/proc/cpuinfo", "r");
   if(cpuinfo == NULL){
-    printf("FATAL: couldn't open /proc/cpuinfo\n");
+    printf("FATAL: couldn't open required files\n");
     exit(0);
   }
-
+  
   noecho();
   keypad(mainwin, TRUE);
   
@@ -47,9 +58,13 @@ int main(int argc, char* argv[]){
       if(model_rc >= 0){
         if(buffer[0] == 'c'){
 	  mvwaddstr(mainwin, 1, 0, buffer);
+	  printToStream(buffer, 0);
 	}else {
 	  mvwaddstr(mainwin, 0, 0, buffer);
+	  printToStream(buffer, 1);
 	}
+	
+        flushData();
 	refresh();
       }
     }
@@ -59,4 +74,24 @@ int main(int argc, char* argv[]){
   }
   endwin();
   return 0;
+}
+
+void flushData(){
+  outfile = fopen("smonitor/info.txt", "w");
+  /*  if(fwrite(printStream, 1, strlen(printStream), outfile)==0){
+    printf("Failed to write to file\n");  
+    }*/
+  char buffer[100];
+  fprintf(outfile, "%s", printStream);
+  sprintf(buffer, "printed: %s", printStream);
+  mvwaddstr(mainwin, 3, 0, buffer);
+  fclose(outfile);
+}
+
+void printToStream(const char* buffer, int option){
+  if(option == 1){
+    strncpy(printStream, buffer, 1024);
+  }else if(option == 0){
+    strncat(printStream, buffer, 1024-strlen(printStream)); 
+  }
 }
