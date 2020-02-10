@@ -21,7 +21,12 @@ $ sudo apt install libncurses5* libncursesw5-dev
 ```
 *I dont know the package name on Arch based systems but yall use Arch so you can probably figure it out*
 #### Apache2
-If you don't have the `/var/www/html/` folder you will need to install apache2, To install just type:
+**(Debian)** If you don't have the `/var/www/html/` folder you will need to install apache2, To install just type:
 ```bash
 $ sudo apt install apache2
 ```
+**(Arch)** to install apache2 on arch systems, type:
+```bash
+$ sudo pacman -S apache
+```
+By default, apache will set the document root to `/srv/http` and so it will not work with this program. So you you will either have to change the document root or change the install sh file to symlink it to there instead.
