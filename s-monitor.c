@@ -12,7 +12,7 @@ FILE* outfile;
 WINDOW* mainwin;
 //function prototypes:
 void flushData();
-void printToStream(const char* buffer, int option);
+void printToStream(char* buffer, int option);
 
 
 
@@ -88,10 +88,12 @@ void flushData(){
   fclose(outfile);
 }
 
-void printToStream(const char* buffer, int option){
+void printToStream(char* buffer, int option){
   if(option == 1){
     strncpy(printStream, buffer, 1024);
   }else if(option == 0){
-    strncat(printStream, buffer, 1024-strlen(printStream)); 
+    char newBuffer[1024];
+    sprintf(newBuffer, "\n%s", buffer);
+    strncat(printStream, newBuffer, 1024-strlen(printStream)); 
   }
 }
